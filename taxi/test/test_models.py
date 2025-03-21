@@ -27,8 +27,10 @@ class ModelsTests(TestCase):
     def test_driver_str(self):
         driver = Driver.objects.create(
             license_number="AAA55555",
-            username="Ruslan",
+            username="Ruslan15",
+            first_name="Ruslan",
             last_name="Topal",
+            password="test_Password1",
         )
 
         self.assertEqual(
