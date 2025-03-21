@@ -1,13 +1,3 @@
-import os
-import django
-import sys
-
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "taxi_service.settings")
-django.setup()
-
-
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -17,21 +7,22 @@ class AdminSiteTests(TestCase):
     def setUp(self) -> None:
         self.client = Client()
         self.admin_user = get_user_model().objects.create_superuser(
-            username='admin',
-            password='admin'
+            username="admin",
+            password="admin"
         )
         self.client.force_login(self.admin_user)
-        self.driver =  get_user_model().objects.create_user(
-            username='driver',
-            first_name='Chan',
-            last_name='Li',
-            password='driver',
-            license_number = "ABC71787"
+        self.driver = get_user_model().objects.create_user(
+            username="driver",
+            first_name="Chan",
+            last_name="Li",
+            password="driver",
+            license_number="ABC71787"
         )
 
     def test_driver_license_number_listed(self):
         """
-        Test get driver`s license number is in list_display on driver admin page.
+        Test get driver`s license number is in
+        list_display on driver admin page.
         :return:
         """
         url = reverse("admin:taxi_driver_changelist")

@@ -1,12 +1,3 @@
-import os
-import django
-import sys
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "taxi_service.settings")
-django.setup()
-
-
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from taxi.models import Manufacturer, Driver, Car
@@ -71,7 +62,7 @@ class ModelsTests(TestCase):
         last_name = "Gray"
         driver = get_user_model().objects.create_user(
             license_number=license_number,
-            username= username,
+            username=username,
             first_name=first_name,
             last_name=last_name,
             password=password,

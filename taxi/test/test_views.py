@@ -1,12 +1,4 @@
-import os
-import django
-import sys
-
 from django.contrib.auth import get_user_model
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "taxi_service.settings")
-django.setup()
 
 from django.test import TestCase
 from django.urls import reverse
@@ -90,7 +82,6 @@ class PrivateCarsTest(TestCase):
 
         car.drivers.add(driver)
 
-
         res = self.client.get(CAR_URL)
         self.assertEqual(res.status_code, 200)
 
@@ -130,7 +121,7 @@ class PrivateDriversTest(TestCase):
         res = self.client.get(DRIVER_URL)
         self.assertEqual(res.status_code, 200)
 
-        drivers = Driver.objects.all().order_by('username')
+        drivers = Driver.objects.all().order_by("username")
 
         self.assertEqual(
             list(res.context["driver_list"]),
@@ -169,14 +160,25 @@ class ManufacturerListViewTests(TestCase):
         response = self.client.get(self.url)
         manufacturers = Manufacturer.objects.all()
 
-        self.assertQuerysetEqual(response.context["manufacturer_list"], manufacturers)
+        self.assertQuerysetEqual(
+            response.context["manufacturer_list"], manufacturers
+        )
 
     def test_get_queryset_with_search(self):
-        response = self.client.get(self.url, {"name": 'test1'})
+        response = self.client.get(self.url, {"name": "test1"})
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context["manufacturer_list"]), 1)
-        self.assertEqual(response.context["manufacturer_list"][0], self.manufacturer1)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
+        self.assertEqual(
+            len(response.context["manufacturer_list"]),
+            1
+        )
+        self.assertEqual(
+            response.context["manufacturer_list"][0],
+            self.manufacturer1
+        )
 
 
 class DriverListViewTests(TestCase):
@@ -207,16 +209,16 @@ class DriverListViewTests(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn('driver_list', response.context)
-        self.assertEqual(len(response.context['driver_list']), 3)
-        self.assertIn('search_form', response.context)
+        self.assertIn("driver_list", response.context)
+        self.assertEqual(len(response.context["driver_list"]), 3)
+        self.assertIn("search_form", response.context)
 
     def test_get_queryset_without_search(self):
         response = self.client.get(self.url)
         drivers = Driver.objects.all().order_by("username")
 
         self.assertQuerysetEqual(
-            response.context['driver_list'],
+            response.context["driver_list"],
             drivers,
             transform=lambda x: x
         )
@@ -262,7 +264,7 @@ class CarListViewTests(TestCase):
 
     def test_get_queryset_without_search(self):
         response = self.client.get(self.url)
-        manufacturers = Car.objects.all().order_by('model')
+        manufacturers = Car.objects.all().order_by("model")
 
         self.assertQuerysetEqual(
             response.context["car_list"],
